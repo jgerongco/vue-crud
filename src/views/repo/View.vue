@@ -28,7 +28,7 @@
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
               </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
               </li>
                <li class="nav-item">
@@ -46,16 +46,16 @@
           </div>
         </div>
       </nav>
-    </div>
+    </div> 
   </header>
 
   <div class="container mt-5">
     <div class="card">
       <div class="card-header">
         <h4>
-          Students
-          <router-link to="/admin/students/create" class="btn btn-success float-end"
-            >Add Student</router-link
+          Report
+          <router-link to="/admin/report/create" class="btn  float-end"
+            >Add Report</router-link
           >
         </h4>
       </div>
@@ -63,37 +63,25 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Course</th>
-              <th scope="col">Email</th>
+              <th scope="col">ID Number</th>
+              <th scope="col">Lastname</th>
+              <th scope="col">Firstname</th>
               <th scope="col">Phone</th>
-              <th scope="col">Date Created</th>
-              <th scope="col">Action</th>
+              <th scope="col">Date</th>
+              <th scope="col">Violation</th>
+              <th scope="col">Status</th>
             </tr>
           </thead>
-          <tbody v-if="students.length > 0">
-            <tr v-for="student in students" :key="student">
-              <td>{{ student.id }}</td>
-              <td>{{ student.name }}</td>
-              <td>{{ student.course }}</td>
-              <td>{{ student.email }}</td>
-              <td>{{ student.phone }}</td>
-              <td>{{ formatDate(student.created_at) }}</td>
-              <td class="d-flex gap-1">
-                <router-link
-                  :to="{ path: '/students/' + student.id + '/edit' }"
-                  class="btn btn-primary"
-                  >Edit</router-link
-                >
-                <button
-                  type="button"
-                  @click="deleteStudent(student.id)"
-                  class="btn btn-danger btn-block"
-                >
-                  Delete
-                </button>
-              </td>
+          <tbody v-if="report.length > 0">
+            <tr v-for="reports in report" :key="reports">
+              <td>{{ reports.idnum }}</td>
+              <td>{{ reports.lastname }}</td>
+              <td>{{ reports.firstname }}</td>
+              <td>{{ reports.phone }}</td>
+              <td>{{ reports.date }}</td>
+              <td>{{ reports.violation }}</td>
+              <td>{{ reports.status }}</td>
+             
             </tr>
           </tbody>
           <tbody v-else>
@@ -111,51 +99,30 @@
 import axios from "axios";
 
 export default {
-  name: "students",
+  name: "report",
   data() {
     return {
-      students: [],
+      report: [],
     };
   },
   mounted() {
-    this.getStudents();
+    this.getReserve();
   },
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
-      this.$router.push('/admin'); // Redirect to the login page
-    },  
-
-    getStudents() {
-      axios.get("http://127.0.0.1:8000/api/students/").then((res) => {
-        this.students = res.data.students;
-      });
+      this.$router.push('/'); // Redirect to the login page
+    },
+   getReserve() {
+      axios.get("http://127.0.0.1:8000/api/report/")
+        .then((res) => {
+          this.report = res.data.report;
+        })
+        .catch((error) => {
+          console.error("Error fetching reservation data:", error);
+        });
     },
 
-    deleteStudent(studentId) {
-      console.log(studentId);
-
-      if (confirm("Are you sure you want to delete this this data?")) {
-
-        axios
-          .delete(`http://127.0.0.1:8000/api/students/${studentId}`)
-          .then((res) => {
-            console.log(res);
-
-            alert(res.data.message);
-            this.getStudents();
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.status == 404) {
-                alert(error.response.data.message);
-              }
-            }
-          });
-      }
-    },
-
-    // change to proper format
     formatDate(dateString) {
       var date = new Date(dateString);
 

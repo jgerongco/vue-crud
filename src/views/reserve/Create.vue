@@ -18,28 +18,15 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <router-link class="nav-link" aria-current="page" to="/admin/home"
+                <router-link class="nav-link" aria-current="page" to="/home"
                   >Home</router-link
                 >
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/reservation">Student Resrevation</RouterLink>
+                <RouterLink class="nav-link" to="/reservation">Reservation</RouterLink>
               </li>
-              <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
-              </li>
-              <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
-              </li>
+
                <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/students">Student</RouterLink>
-              </li>
-              <!-- <li class="nav-item">
-                <router-link class="nav-link" to="/students"
-                  >Students</router-link
-                >
-              </li> -->
-              <li class="nav-item">
                  <button class="nav-link" @click="logout">Logout</button>
               </li>
             </ul>
@@ -48,12 +35,11 @@
       </nav>
     </div>
   </header>
-
-
+  
   <div class="container mt-5">
     <div class="card">
       <div class="card-header">
-        <h4>Add Students</h4>
+        <h4>Reservation</h4>
       </div>
       <div class="card-body">
         <ul
@@ -66,53 +52,78 @@
         </ul>
         <div class="row">
           <div class="col-12 mb-3">
-            <label for="">Id Number</label>
+            <label for="">Firstname</label>
             <input
               type="text"
               class="form-control"
-              id="name"
-              v-model="model.student.name"
+              v-model="model.res.firstname"
             />
           </div>
-         <div class="col-12 mb-3">
-            <label for="courseSelect">Course</label>
-            <select id="courseSelect" class="form-control" v-model="model.student.course">
-              <option value="">Select a course</option>
-              <option value="Course 1">Course 1</option>
-              <option value="Course 2">Course 2</option>
-              <option value="Course 3">Course 3</option>
-              <!-- Add more options as needed -->
-            </select>
+          <div class="col-12 mb-3">
+            <label for="">Lastname</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="model.res.lastname"
+            />
           </div>
           <div class="col-12 mb-3">
             <label for="">Email</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
-              id="email"
-              v-model="model.student.email"
+              v-model="model.res.email"
             />
           </div>
           <div class="col-12 mb-3">
-            <label for="">Phone</label>
+            <label for="">Faculty</label>
             <input
               type="text"
               class="form-control"
-              id="phone"
-              v-model="model.student.phone"
+              v-model="model.res.faculty"
             />
           </div>
-           <div class="col-12 mb-3">
-            <label for="">Password</label>
+          <div class="col-12 mb-3">
+            <label for="">People</label>
             <input
-              type="password"
+              type="text"
               class="form-control"
-              id="pass"
-              v-model="model.student.password"
+              v-model="model.res.people"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              v-model="model.res.date"
+            />
+          </div>
+         <div class="col-12 mb-3">
+          <label for="">Time</label>
+          <select class="form-control" v-model="model.res.time">
+            <option value="08:00">08:00 AM</option>
+            <option value="09:00">09:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="1:00">1:00 PM</option>
+            <option value="2:00">2:00 PM</option>
+            <option value="3:00">3:00 PM</option>
+            <option value="4:00">4:00 PM</option>
+            <option value="5:00">5:00 PM</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+          <div class="col-12 mb-3">
+            <label for="">Purpose</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="model.res.purpose"
             />
           </div>
           <div class="col-12 mb-3 text-end">
-            <button type="button" @click="saveStudent" class="btn btn-success">
+            <button type="button" @click="saveStudent" class="btn">
               Save
             </button>
           </div>
@@ -123,44 +134,46 @@
 </template>
 
 <script>
-
 import axios from "axios";
 
 export default {
-  name: "studentCreate",
+  name: "reserveCreate",
   data() {
     return {
       errorList: "",
       model: {
-        student: {
-          name: "",
-          course: "",
+        res: {
+          firstname: "",
+          lastname: "",
           email: "",
-          phone: "",
-          password: "",
+          faculty: "",
+          people:"",
+          date: "",
+          time: "",
+          purpose: "",
         },
       },
     };
   },
-  methods: {
-    logout() {
-      localStorage.removeItem('token'); // Clear token from local storage
-      this.$router.push('/admin'); // Redirect to the login page
-    },
+
+  methods:{
     saveStudent() {
       var mythis = this;
       axios
-        .post("http://127.0.0.1:8000/api/students", this.model.student)
+        .post("http://127.0.0.1:8000/api/reservation", this.model.res)
         .then((res) => {
-          // console.log(res.data);
-          // alert(res.data.message);
+          console.log(res.data);
+          alert(res.data.message);
 
-          this.model.student = {
-            name: "",
-            course: "",
+          this.model.res = {
+            firstname: "",
+            lastname: "",
             email: "",
-            phone: "",
-            password: "",
+            faculty: "",
+            people:"",  
+            date: "",
+            time: "",
+            purpose: "",
           };
           this.errorList = "";
         })
@@ -176,11 +189,13 @@ export default {
           }
         });
     },
-  },
-   logout() {
+
+     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
       this.$router.push('/'); // Redirect to the login page
     },
+  },
+  
 };
 </script>
 <style>

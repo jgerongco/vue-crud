@@ -32,7 +32,7 @@
                 <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
               </li>
                <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/students">Student</RouterLink>
+                <RouterLink class="nav-link" to="/admin/students">Students</RouterLink>
               </li>
               <!-- <li class="nav-item">
                 <router-link class="nav-link" to="/students"
@@ -49,54 +49,59 @@
     </div>
   </header>
 
-  <div class="container mt-5">
+
+<div class="container mt-5">
     <div class="card">
       <div class="card-header">
         <h4>
-          Students
-          <router-link to="/admin/students/create" class="btn btn-success float-end"
-            >Add Student</router-link
-          >
+          History
         </h4>
       </div>
       <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Course</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Date Created</th>
-              <th scope="col">Action</th>
+              <th scope="col">Lastname</th>
+              <th scope="col">Date</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">People</th>
+              <th scope="col">Faculty</th>
+              <th scope="col">Status</th>
+              <!-- <th scope="col">Action</th> -->
             </tr>
           </thead>
-          <tbody v-if="students.length > 0">
-            <tr v-for="student in students" :key="student">
-              <td>{{ student.id }}</td>
-              <td>{{ student.name }}</td>
-              <td>{{ student.course }}</td>
-              <td>{{ student.email }}</td>
-              <td>{{ student.phone }}</td>
-              <td>{{ formatDate(student.created_at) }}</td>
-              <td class="d-flex gap-1">
-                <router-link
-                  :to="{ path: '/students/' + student.id + '/edit' }"
-                  class="btn btn-primary"
-                  >Edit</router-link
-                >
+          <tbody v-if="reservation.length > 0">
+            <tr v-for="reservations in reservation" :key="reservations">
+              <td>{{ reservations.lastname }}</td>
+              <td>{{ formatDate(reservations.date) }}</td>
+              <td>{{ reservations.purpose }}</td>
+              <td>{{ reservations.people }}</td>
+              <td>{{ reservations.faculty }}</td>
+              <td>{{ reservations.status }}</td>
+              <!-- <td class="d-flex gap-1">
+                <button
+                    class="btn btn-primary"
+                    @click="acceptReserve(reservations.id)"
+                    >Accept</button
+                  >
                 <button
                   type="button"
-                  @click="deleteStudent(student.id)"
                   class="btn btn-danger btn-block"
+                  @click="declineReserve(reservations.id)"
                 >
-                  Delete
+                  Decline
                 </button>
-              </td>
+                <button
+                  type="button"
+                  class="btn btn-warning btn-block"
+                    @click="reschedReserve(reservations.id)"
+                >
+                  Reschedule
+                </button>
+              </td> -->
             </tr>
           </tbody>
-          <tbody v-else>
+           <tbody v-else>
             <tr>
               <td colspan="7">Loading...</td>
             </tr>
@@ -107,43 +112,52 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
 
 export default {
-  name: "students",
+  name: "reservation",
+
   data() {
     return {
-      students: [],
+      reservation: [],
     };
   },
+
   mounted() {
-    this.getStudents();
+    this.getReserve();
   },
+
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
       this.$router.push('/admin'); // Redirect to the login page
-    },  
-
-    getStudents() {
-      axios.get("http://127.0.0.1:8000/api/students/").then((res) => {
-        this.students = res.data.students;
-      });
     },
 
-    deleteStudent(studentId) {
-      console.log(studentId);
+    getReserve() {
+      axios.get("http://127.0.0.1:8000/api/reservation/")
+        .then((res) => {
+          this.reservation = res.data.reservation;
+        })
+        .catch((error) => {
+          console.error("Error fetching reservation data:", error);
+        });
+    },
+    acceptReserve(reserveId){
+      console.log(reserveId)
 
-      if (confirm("Are you sure you want to delete this this data?")) {
+      const data = {
+          status: 'Accepted'
+      };
 
-        axios
-          .delete(`http://127.0.0.1:8000/api/students/${studentId}`)
+      axios
+          .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
           .then((res) => {
             console.log(res);
 
-            alert(res.data.message);
-            this.getStudents();
+            // alert(res.data.message);
+            this.getReserve();
           })
           .catch(function (error) {
             if (error.response) {
@@ -152,10 +166,57 @@ export default {
               }
             }
           });
-      }
+
+    },
+    declineReserve(reserveId){
+      console.log(reserveId)
+
+      const data = {
+          status: 'Decline'
+      };
+
+      axios
+          .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
+          .then((res) => {
+            console.log(res);
+
+            // alert(res.data.message);
+            this.getReserve();
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.status == 404) {
+                alert(error.response.data.message);
+              }
+            }
+          });
+
+    },
+    reschedReserve(reserveId){
+      console.log(reserveId)
+
+      const data = {
+          status: 'Reschedule'
+      };
+
+      axios
+          .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
+          .then((res) => {
+            console.log(res);
+
+            // alert(res.data.message);
+            this.getReserve();
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.status == 404) {
+                alert(error.response.data.message);
+              }
+            }
+          });
+
     },
 
-    // change to proper format
     formatDate(dateString) {
       var date = new Date(dateString);
 
@@ -165,11 +226,9 @@ export default {
         day: "numeric",
       });
     },
-  },
-   
+  }
 };
 </script>
-
 <style>
 body {
   background-image: url('./NIY_03551.jpg');

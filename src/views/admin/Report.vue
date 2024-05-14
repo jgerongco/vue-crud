@@ -23,16 +23,16 @@
                 >
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/reservation">Student Reservation</RouterLink>
+                <RouterLink class="nav-link" to="/admin/reservation">Student Resrevation</RouterLink>
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
               </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
               </li>
                <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/students">Student</RouterLink>
+                <RouterLink class="nav-link" to="/admin/students">Students</RouterLink>
               </li>
               <!-- <li class="nav-item">
                 <router-link class="nav-link" to="/students"
@@ -49,38 +49,34 @@
     </div>
   </header>
 
-  <div class="container mt-5">
+
+<div class="container mt-5">
     <div class="card">
       <div class="card-header">
         <h4>
-          Students
-          <router-link to="/admin/students/create" class="btn btn-success float-end"
+          Report
+          <!-- <router-link to="/students/create" class="btn btn-success float-end"
             >Add Student</router-link
-          >
+          > -->
         </h4>
       </div>
       <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
+              <th scope="col">Section</th>
               <th scope="col">Course</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Date Created</th>
-              <th scope="col">Action</th>
+              <th scope="col">Violation</th>
+              <th scope="col">Date</th>
             </tr>
           </thead>
-          <tbody v-if="students.length > 0">
-            <tr v-for="student in students" :key="student">
-              <td>{{ student.id }}</td>
-              <td>{{ student.name }}</td>
-              <td>{{ student.course }}</td>
-              <td>{{ student.email }}</td>
-              <td>{{ student.phone }}</td>
-              <td>{{ formatDate(student.created_at) }}</td>
-              <td class="d-flex gap-1">
+          <tbody >
+            <tr>
+              <td>BSIT-2A</td>
+              <td>Information Technology</td>
+              <td>Wa Gi Tarong Ang Banko</td>
+              <td>April 16, 2024</td>
+              <!-- <td class="d-flex gap-1">
                 <router-link
                   :to="{ path: '/students/' + student.id + '/edit' }"
                   class="btn btn-primary"
@@ -93,83 +89,31 @@
                 >
                   Delete
                 </button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
-          <tbody v-else>
+          <!-- <tbody v-else>
             <tr>
               <td colspan="7">Loading...</td>
             </tr>
-          </tbody>
+          </tbody> -->
         </table>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import axios from "axios";
 
+<script>
 export default {
-  name: "students",
-  data() {
-    return {
-      students: [],
-    };
-  },
-  mounted() {
-    this.getStudents();
-  },
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
       this.$router.push('/admin'); // Redirect to the login page
-    },  
-
-    getStudents() {
-      axios.get("http://127.0.0.1:8000/api/students/").then((res) => {
-        this.students = res.data.students;
-      });
-    },
-
-    deleteStudent(studentId) {
-      console.log(studentId);
-
-      if (confirm("Are you sure you want to delete this this data?")) {
-
-        axios
-          .delete(`http://127.0.0.1:8000/api/students/${studentId}`)
-          .then((res) => {
-            console.log(res);
-
-            alert(res.data.message);
-            this.getStudents();
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.status == 404) {
-                alert(error.response.data.message);
-              }
-            }
-          });
-      }
-    },
-
-    // change to proper format
-    formatDate(dateString) {
-      var date = new Date(dateString);
-
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    },
-  },
-   
+    }
+  }
 };
 </script>
-
 <style>
 body {
   background-image: url('./NIY_03551.jpg');

@@ -28,7 +28,7 @@
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
               </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
               </li>
                <li class="nav-item">
@@ -46,13 +46,13 @@
           </div>
         </div>
       </nav>
-    </div>
+    </div> 
   </header>
-
+  
   <div class="container mt-5">
     <div class="card">
       <div class="card-header">
-        <h4>Edit Students</h4>
+        <h4>Report</h4>
       </div>
       <div class="card-body">
         <ul
@@ -65,46 +65,64 @@
         </ul>
         <div class="row">
           <div class="col-12 mb-3">
-            <label for="">Name</label>
+            <label for="">Id Number</label>
             <input
               type="text"
               class="form-control"
-              v-model="model.student.name"
+              v-model="model.res.idnum"
             />
           </div>
           <div class="col-12 mb-3">
-            <label for="courseSelect">Course</label>
-            <select id="courseSelect" class="form-control" v-model="model.student.course">
-              <option value="">Select a course</option>
-              <option value="Course 1">Course 1</option>
-              <option value="Course 2">Course 2</option>
-              <option value="Course 3">Course 3</option>
-              <!-- Add more options as needed -->
-            </select>
-          </div>
-          <div class="col-12 mb-3">
-            <label for="">Email</label>
+            <label for="">Lastname</label>
             <input
               type="text"
               class="form-control"
-              v-model="model.student.email"
+              v-model="model.res.lastname"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="">Firstname</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="model.res.firstname"
             />
           </div>
           <div class="col-12 mb-3">
             <label for="">Phone</label>
             <input
+              type="number"
+              class="form-control"
+              v-model="model.res.phone"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="">Violation</label>
+            <input
               type="text"
               class="form-control"
-              v-model="model.student.phone"
+              v-model="model.res.violations"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              v-model="model.res.date"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <label for="">Status</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="model.res.status"
             />
           </div>
           <div class="col-12 mb-3 text-end">
-            <button
-              type="button"
-              @click="updateStudent"
-              class="btn btn-success"
-            >
-              Update
+            <button type="button" @click="saveStudent" class="btn btn-success">
+              Save
             </button>
           </div>
         </div>
@@ -117,68 +135,48 @@
 import axios from "axios";
 
 export default {
-  name: "studentEdit",
+  name: "reserveCreate",
   data() {
     return {
-      studentId: "",
       errorList: "",
       model: {
-        student: {
-          name: "",
-          course: "",
-          email: "",
+        res: {
+          idnum: "",
+          lastname: "",
+          firstname: "",
           phone: "",
+          violations: "",
+          date: "",
+          status: "",
         },
       },
     };
   },
-  mounted() {
-    // console.log(this.$route.params.id);
-    this.studentId = this.$route.params.id;
-    this.getStudentData(this.$route.params.id);
-  },
-  methods: {
-    logout() {
-      localStorage.removeItem('token'); // Clear token from local storage
-      this.$router.push('/admin'); // Redirect to the login page
-    },
-    getStudentData(studentId) {
-      axios
-        .get(`http://127.0.0.1:8000/api/students/${studentId}/edit`)
-        .then((res) => {
-          console.log(res.data.student);
 
-          this.model.student = res.data.student;
-        })
-        .catch(function (error) {
-          if (error.response) {
-            if (error.response.status == 404) {
-              alert(error.response.data.message);
-            }
-          }
-        });
-    },
-
-    updateStudent() {
+  methods:{
+    saveStudent() {
       var mythis = this;
       axios
-        .put(
-          `http://127.0.0.1:8000/api/students/${this.studentId}`,
-          this.model.student
-        )
+        .post("http://127.0.0.1:8000/api/report", this.model.res)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
 
+          this.model.res = {
+            idnum: "",
+            lastname: "",
+            firstname: "",
+            phone: "",
+            violations: "",
+            date: "",
+            status: "",
+          };
           this.errorList = "";
         })
         .catch(function (error) {
           if (error.response) {
             if (error.response.status == 422) {
               mythis.errorList = error.response.data.errors;
-            }
-            if (error.response.status == 404) {
-              alert(error.response.data.message);
             }
           } else if (error.request) {
             console.log(error.request);
@@ -187,7 +185,34 @@ export default {
           }
         });
     },
+
+     logout() {
+      localStorage.removeItem('token'); // Clear token from local storage
+      this.$router.push('/'); // Redirect to the login page
+    },
   },
   
 };
 </script>
+<style>
+body {
+  background-image: url('./NIY_03551.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;/* Adjust the height as needed */
+}
+.btn {
+  background-color: #e62b4d; 
+  color: white; 
+  border-color: #e62b4d /* Border color */
+}
+
+/* Example: */
+.btn:hover {
+  background-color: #F68B9E;
+  color: white; 
+  border-color: #F68B9E;
+}
+</style>
