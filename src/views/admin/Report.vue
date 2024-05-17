@@ -23,7 +23,7 @@
                 >
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/reservation">Student Resrevation</RouterLink>
+                <RouterLink class="nav-link" to="/admin/reservation">Student Reservation</RouterLink>
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/history">History</RouterLink>

@@ -100,8 +100,8 @@
             />
           </div>
          <div class="col-12 mb-1">
-          <label for="">Time</label>
-          <select class="form-control" v-model="model.res.time">
+          <label for="timeSelect">Time</label>
+          <select id="timeSelect"class="form-control" v-model="model.res.time">
             <option value="08:00">08:00 AM</option>
             <option value="09:00">09:00 AM</option>
             <option value="10:00">10:00 AM</option>
@@ -192,6 +192,7 @@ export default {
 
      logout() {
       localStorage.removeItem('token'); // Clear token from local storage
+      alert('Logout Successfully');
       this.$router.push('/'); // Redirect to the login page
     },
   },

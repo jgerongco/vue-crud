@@ -32,7 +32,7 @@
                 <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
               </li>
                <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/students">Student</RouterLink>
+                <RouterLink class="nav-link" to="/admin/students">Students</RouterLink>
               </li>
               <!-- <li class="nav-item">
                 <router-link class="nav-link" to="/students"

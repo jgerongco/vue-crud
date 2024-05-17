@@ -1,9 +1,244 @@
 <template>
+  <header>
+    <div class="wrapper">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <router-link class="nav-link" aria-current="page" to="/admin/home">Home</router-link>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/admin/reservation">Student Reservation</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/admin/Report">Report</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/admin/students">Students</RouterLink>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" @click="logout">Logout</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h4>History</h4>
+        <button class="btn btn-primary" @click="showAccepted">Accept</button>
+        <button class="btn btn-primary" @click="showDeclined">Decline</button>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Lastname</th>
+              <th scope="col">Date</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">People</th>
+              <th scope="col">Faculty</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody v-if="filteredReservations.length > 0">
+            <tr v-for="reservation in filteredReservations" :key="reservation.id">
+              <td>{{ reservation.lastname }}</td>
+              <td>{{ formatDate(reservation.date) }}</td>
+              <td>{{ reservation.purpose }}</td>
+              <td>{{ reservation.people }}</td>
+              <td>{{ reservation.faculty }}</td>
+              <td>{{ reservation.status }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">No reservations found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "reservation",
+  data() {
+    return {
+      reservation: [],
+      filterStatus: "", // Initial filter status
+    };
+  },
+  mounted() {
+    this.getReserve();
+  },
+  computed: {
+    filteredReservations() {
+      if (this.filterStatus) {
+        return this.reservation.filter(reservation => reservation.status === this.filterStatus);
+      } else {
+        return this.reservation;
+      }
+    },
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("token"); // Clear token from local storage
+      this.$router.push("/admin"); // Redirect to the login page
+    },
+    getReserve() {
+      axios
+        .get("http://127.0.0.1:8000/api/reservation/")
+        .then((res) => {
+          this.reservation = res.data.reservation;
+        })
+        .catch((error) => {
+          console.error("Error fetching reservation data:", error);
+        });
+    },
+    acceptReserve(reserveId) {
+      const data = { status: "Accepted" };
+      axios
+        .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
+        .then((res) => {
+          this.getReserve();
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            alert(error.response.data.message);
+          }
+        });
+    },
+    declineReserve(reserveId) {
+      const data = { status: "Decline" };
+      axios
+        .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
+        .then((res) => {
+          this.getReserve();
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            alert(error.response.data.message);
+          }
+        });
+    },
+    reschedReserve(reserveId) {
+      const data = { status: "Reschedule" };
+      axios
+        .put(`http://127.0.0.1:8000/api/reservation/${reserveId}`, data)
+        .then((res) => {
+          this.getReserve();
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            alert(error.response.data.message);
+          }
+        });
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+    showAccepted() {
+      this.filterStatus = "Accepted";
+    },
+    showDeclined() {
+      this.filterStatus = "Decline";
+    },
+  },
+};
+</script>
+
+
+
+
+
+<style>
+body {
+  background-image: url('./NIY_03551.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0; /* Adjust the height as needed */
+}
+.btn {
+  background-color: #e62b4d;
+  color: white;
+  border-color: #e62b4d; /* Border color */
+}
+.btn:hover {
+  background-color: #f68b9e;
+  color: white;
+  border-color: #f68b9e;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <template>
 <header>
     <div class="wrapper">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-          <!-- <RouterLink class="navbar-brand" to="/">Navbar</RouterLink> -->
+          <RouterLink class="navbar-brand" to="/">Navbar</RouterLink> //Comment
           <button
             class="navbar-toggler"
             type="button"
@@ -34,11 +269,11 @@
                <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/students">Students</RouterLink>
               </li>
-              <!-- <li class="nav-item">
+              <li class="nav-item"> //***comment li/
                 <router-link class="nav-link" to="/students"
                   >Students</router-link
                 >
-              </li> -->
+              </li>
               <li class="nav-item">
                  <button class="nav-link" @click="logout">Logout</button>
               </li>
@@ -67,7 +302,7 @@
               <th scope="col">People</th>
               <th scope="col">Faculty</th>
               <th scope="col">Status</th>
-              <!-- <th scope="col">Action</th> -->
+              <th scope="col">Action</th> //*** */
             </tr>
           </thead>
           <tbody v-if="reservation.length > 0">
@@ -78,7 +313,7 @@
               <td>{{ reservations.people }}</td>
               <td>{{ reservations.faculty }}</td>
               <td>{{ reservations.status }}</td>
-              <!-- <td class="d-flex gap-1">
+              <td class="d-flex gap-1"> //td class //
                 <button
                     class="btn btn-primary"
                     @click="acceptReserve(reservations.id)"
@@ -98,7 +333,7 @@
                 >
                   Reschedule
                 </button>
-              </td> -->
+              </td>
             </tr>
           </tbody>
            <tbody v-else>
@@ -250,4 +485,4 @@ body {
   color: white; 
   border-color: #F68B9E;
 }
-</style>
+</style> -->

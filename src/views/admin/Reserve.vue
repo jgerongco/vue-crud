@@ -93,13 +93,13 @@
                 >
                   Decline
                 </button>
-                <button
+                <!-- <button
                   type="button"
                   class="btn btn-warning btn-block"
                     @click="reschedReserve(reservations.id)"
                 >
                   Reschedule
-                </button>
+                </button> -->
               </td>
             </tr>
           </tbody>
@@ -134,6 +134,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
+      alert('Logout Successfully');
       this.$router.push('/admin'); // Redirect to the login page
     },
 
