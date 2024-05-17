@@ -23,7 +23,7 @@
                 >
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/admin/reservation">Student Resrevation</RouterLink>
+                <RouterLink class="nav-link" to="/admin/reservation">Student Resevation</RouterLink>
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/admin/history">History</RouterLink>
@@ -76,9 +76,9 @@
             <label for="courseSelect">Course</label>
             <select id="courseSelect" class="form-control" v-model="model.student.course">
               <option value="">Select a course</option>
-              <option value="Course 1">Course 1</option>
-              <option value="Course 2">Course 2</option>
-              <option value="Course 3">Course 3</option>
+              <option value="BS in Information Systems">BS in Information Systems</option>
+              <option value="BS in Information Technology">BS in Information Technology</option>
+              <option value="BS in Computer Science">BS in Computer Science</option>
               <!-- Add more options as needed -->
             </select>
           </div>
@@ -102,7 +102,7 @@
             <button
               type="button"
               @click="updateStudent"
-              class="btn btn-success"
+              class="btn"
             >
               Update
             </button>

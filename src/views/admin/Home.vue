@@ -49,10 +49,20 @@
         </nav>
       </div>
     </header>
-      <h1>
-      Home
-      </h1>
-  
+    <div class="home-container">
+    <Nav/>
+    <main>
+      <section class="home" id="home">
+        <div class="home-text">
+          <div class="home-text-container">
+            <h1>Welcome to ICTDU Space</h1>
+            <h3><span>Admin!</span></h3>
+            <p></p>
+          </div>
+        </div>
+      </section>
+    </main>
+    </div>
   </template>
   
   <script>

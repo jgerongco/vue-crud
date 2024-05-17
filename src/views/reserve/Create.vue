@@ -51,7 +51,7 @@
           </li>
         </ul>
         <div class="row">
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">Firstname</label>
             <input
               type="text"
@@ -59,7 +59,7 @@
               v-model="model.res.firstname"
             />
           </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">Lastname</label>
             <input
               type="text"
@@ -67,7 +67,7 @@
               v-model="model.res.lastname"
             />
           </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">Email</label>
             <input
               type="email"
@@ -75,7 +75,7 @@
               v-model="model.res.email"
             />
           </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">Faculty</label>
             <input
               type="text"
@@ -83,7 +83,7 @@
               v-model="model.res.faculty"
             />
           </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">People</label>
             <input
               type="text"
@@ -91,7 +91,7 @@
               v-model="model.res.people"
             />
           </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-1">
             <label for="">Date</label>
             <input
               type="date"
@@ -99,7 +99,7 @@
               v-model="model.res.date"
             />
           </div>
-         <div class="col-12 mb-3">
+         <div class="col-12 mb-1">
           <label for="">Time</label>
           <select class="form-control" v-model="model.res.time">
             <option value="08:00">08:00 AM</option>
@@ -114,7 +114,7 @@
             <!-- Add more options as needed -->
           </select>
         </div>
-          <div class="col-12 mb-3">
+          <div class="col-12 mb-2">
             <label for="">Purpose</label>
             <input
               type="text"

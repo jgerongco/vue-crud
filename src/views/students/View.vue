@@ -83,7 +83,7 @@
               <td class="d-flex gap-1">
                 <router-link
                   :to="{ path: '/students/' + student.id + '/edit' }"
-                  class="btn btn-primary"
+                  class="btn "
                   >Edit</router-link
                 >
                 <button
