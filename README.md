@@ -1,29 +1,11 @@
-# .
+# ICTDU Space: ICTDU Reservation System
 
-This template should help get you started developing with Vue 3 in Vite.
+The ICTDU Space is a streamlined and efficient solution designed to simplify the process of booking and managing spaces for various purposes. This system allows users to easily check the availability of the room, choose suitable time slots, and make reservations seamlessly.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Tags
+    - Reservation
+    - Tracking
+    - Scheduling
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+[ICTDU Space Link](https://ictdu-space-reservation-system.netlify.app/)
