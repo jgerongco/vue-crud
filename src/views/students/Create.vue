@@ -145,6 +145,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
+      alert('Logout Successfully');
       this.$router.push('/admin'); // Redirect to the login page
     },
     saveStudent() {
@@ -152,8 +153,8 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/students", this.model.student)
         .then((res) => {
-          // console.log(res.data);
-          // alert(res.data.message);
+          console.log(res.data);
+          alert('Student Added Successfully');
 
           this.model.student = {
             name: "",
@@ -179,6 +180,7 @@ export default {
   },
    logout() {
       localStorage.removeItem('token'); // Clear token from local storage
+      alert('Logout Successfully');
       this.$router.push('/'); // Redirect to the login page
     },
 };

@@ -150,6 +150,7 @@ export default {
     acceptReserve(reserveId){
       console.log(reserveId)
 
+      alert('Reservation Accepted successfully');
       const data = {
           status: 'Accepted'
       };
@@ -174,6 +175,7 @@ export default {
     declineReserve(reserveId){
       console.log(reserveId)
 
+      alert('Reservation Decline successfully');
       const data = {
           status: 'Decline'
       };

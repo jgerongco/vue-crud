@@ -123,6 +123,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('token'); // Clear token from local storage
+      alert('Logout Successfully');
       this.$router.push('/admin'); // Redirect to the login page
     },  
 
@@ -142,7 +143,7 @@ export default {
           .then((res) => {
             console.log(res);
 
-            alert(res.data.message);
+            alert('Student Deleted successfully');
             this.getStudents();
           })
           .catch(function (error) {
